@@ -64,8 +64,8 @@ public class BinaryBuffer {
             }
         }
     }
-    //Adds the first n bits from the right of the byte
-    public void add(byte b,int n){
+    //Adds the first n bits from the right of the int
+    public void add(int b,int n){
         for(int i = 0 ; i < n ; i++){
             this.add(((1<<i)&b)>0);
         }
@@ -123,8 +123,9 @@ public class BinaryBuffer {
         int ret = 0;
         length = Math.min(length,32);
         for(int i = 0; i < length; i++){
-            if(idx < this.nextIndex && this.get(idx++)){
+            if(idx < this.nextIndex && this.get(idx)){
                 ret |= (1 << i);
+                idx++;
             }
         }
         return ret;
