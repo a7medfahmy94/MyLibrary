@@ -15,14 +15,14 @@ import java.util.BitSet;
 
 public class BinaryBuffer {
     //BitSet responsible for storing single bits
-    private BitSet buffer; 
+    private BitSet buffer;
     //This will always point to the next index to be written
-    private int nextIndex = 0; 
-    
+    private int nextIndex = 0;
+
     public BinaryBuffer(){
         buffer = new  BitSet();
     }
-    
+
     /*
     This Constructor is used when reading a file containing a BinaryBuffer string
     that was produced by a previous call to toString() method
@@ -48,7 +48,7 @@ public class BinaryBuffer {
             this.add(b.get(i));
         }
     }
-    
+
     //Add a single bit
     public void add(boolean value){
         this.buffer.set(nextIndex,value);
@@ -64,31 +64,37 @@ public class BinaryBuffer {
             }
         }
     }
+    //Adds the first n bits from the right of the byte
+    public void add(byte b,int n){
+        for(int i = 0 ; i < n ; i++){
+            this.add(((1<<i)&b)>0);
+        }
+    }
     //Add some number of bytes
     public void add(byte[] bytes){
         for(int i = 0;i < bytes.length; i++){
             this.add(bytes[i]);
         }
     }
-    
+
     //This method returns non-readble string representing the bits currently
     //being stored in the buffer (0 -> nextIndex)
     //use it only when you're planning on initializing another BinaryBuffer
     //object using the String returned
     //An example would be:
     /*
-    
-    
+
+
     BinaryBuffer b = new BinaryBuffer();
     b.add(true);
     //some more additions
     String digest = b.toString();
     //some work, maybe write digest to a file and read it back later
     BinaryBuffer newBuffer = new BinaryBuffer(digest);
-    
-    
+
+
     */
-    
+
     public String toString(){
         String ret = String.valueOf(nextIndex) + "\n";
         int newSize = ((nextIndex+7)/8);
@@ -98,25 +104,36 @@ public class BinaryBuffer {
                 boolean res = false;
                 if(i<nextIndex){res=buffer.get(i++);}
                 if(res){
-                 fill |= (1 << j);   
+                 fill |= (1 << j);
                 }
             }
             ret += (char)fill;
         }
         return ret;
     }
-    
+
     //CAUTION: returns false if idx is out of range
     public boolean get(int idx){
         if(idx < nextIndex)return buffer.get(idx);
         return false;
     }
-    
+    //returns length-bits wrapped in an int padded by zeroes to the left
+    //starting from idx
+    public int get(int idx,int length){
+        int ret = 0;
+        length = Math.min(length,32);
+        for(int i = 0; i < length; i++){
+            if(idx < this.nextIndex && this.get(idx++)){
+                ret |= (1 << i);
+            }
+        }
+        return ret;
+    }
     //Actual length under concern
     public int length(){return nextIndex;}
     //Pops off last inserted bit
     public void pop(){nextIndex--;}
-    
+
     //used for debugging purposes only
     public void print(){
         System.out.println("====Start====");
@@ -125,7 +142,7 @@ public class BinaryBuffer {
         }
         System.out.println("====End====");
     }
-    
+
 }
 
 
