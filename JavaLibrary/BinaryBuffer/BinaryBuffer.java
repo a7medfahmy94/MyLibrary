@@ -6,7 +6,6 @@
  * and when that string is retrieved it can be used to get back original bits
  * ...note that bits are written from right to left (RTL)
  */
-package uquantizer;
 
 import java.util.BitSet;
 
