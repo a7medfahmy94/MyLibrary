@@ -125,8 +125,8 @@ public class BinaryBuffer {
         for(int i = 0; i < length; i++){
             if(idx < this.nextIndex && this.get(idx)){
                 ret |= (1 << i);
-                idx++;
             }
+            idx++;
         }
         return ret;
     }
