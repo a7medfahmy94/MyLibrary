@@ -5,7 +5,7 @@
 #include "DFS.h"
 #include "BFS.h"
 #include "ConnectedComponent.h"
-
+#include "TopologicalSort.h"
 using namespace std;
 
 void testGraph(){
@@ -152,11 +152,55 @@ void testConnectedComponent(){
 
 }
 
+void testTopologicalSort(){
+	printf("Testing TopologicalSort\n");
+
+	Graph g(10);
+	g.addUnweightedEdge(0 , 1);
+	g.addUnweightedEdge(2 , 1);
+	g.addUnweightedEdge(2 , 3);
+	g.addUnweightedEdge(2 , 7);
+	g.addUnweightedEdge(3 , 4);
+	g.addUnweightedEdge(4 , 5);
+	g.addUnweightedEdge(6 , 5);
+	g.addUnweightedEdge(7 , 4);
+	g.addUnweightedEdge(7 , 8);
+	g.addUnweightedEdge(9 , 6);
+	g.addUnweightedEdge(9 , 7);
+
+	TopologicalSort tgs(g);
+
+	assert((int)tgs.sorted().size() == 10);
+
+	assert(tgs.precedes(2 , 7));
+	printf("2 precedes 7\n");
+	assert(tgs.precedes(9 , 7));
+	printf("9 precedes 7\n");
+
+	assert(tgs.precedes(3 , 4));
+	printf("3 precedes 4\n");
+	assert(tgs.precedes(7 , 4));
+	printf("7 precedes 4\n");
+
+	assert(tgs.precedes(0 , 1));
+	printf("0 precedes 1\n");
+	assert(tgs.precedes(2 , 1));
+	printf("2 precedes 1\n");
+
+	assert(!tgs.precedes(1 , 0));
+	printf("1 doesn't preced 0\n");
+	assert(!tgs.precedes(7 , 2));
+	printf("7 doesn't preced 2\n");
+
+	printf("passed!\n================\n");
+}
+
+
 int main(){
 	testGraph();
 	testDFS();
 	testBFS();
 	testConnectedComponent();
-
+	testTopologicalSort();
 	printf("All Passed!!!\n");
 }
