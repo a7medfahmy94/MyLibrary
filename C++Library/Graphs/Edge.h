@@ -5,8 +5,12 @@ class Edge{
 public:
 	Edge(int a,int b,float f):v(a),w(b),weight(f){}
 
-	int either(){return v;}
-	int other(int a){return a==v?w:v;}
+	int either(){
+		return v;
+	}
+	int other (int a){
+		return a==v?w:v;
+	}
 	float getWeight(){return weight;}
 
 	bool operator==(Edge e){
