@@ -4,6 +4,7 @@
 #include "Graph.h"
 #include "DFS.h"
 #include "BFS.h"
+#include "ConnectedComponent.h"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ void testGraph(){
 	assert(g.getWeight(1,2) - 2.2 < 0.0001);
 	printf("The weight of the edge between 1 and 2 is 2.2\n");
 
-	printf("All passed!\n================\n");
+	printf("passed!\n================\n");
 }
 
 void testDFS(){
@@ -72,11 +73,11 @@ void testDFS(){
 	printf("path from 2 to 5 has length of 3\n");
 	printf("2-%d-%d-%d\n",pathTo_5[0],pathTo_5[1],pathTo_5[2]);
 
-	printf("All passed!\n================\n");
+	printf("passed!\n================\n");
 }
 
 void testBFS(){
-printf("Testing BFS\n");
+	printf("Testing BFS\n");
 
 	Graph g(10);
 	g.addUnweightedEdge(0 , 1);
@@ -105,11 +106,57 @@ printf("Testing BFS\n");
 	assert(bfs.distanceTo(5) == 3);
 	printf("distance from 2 to 5 is 3\n");
 
-	printf("All passed!\n================\n");
+	printf("passed!\n================\n");
+}
+
+void testConnectedComponent(){
+	printf("Testing ConnectedComponent\n");
+
+	Graph g(10);
+	g.addUnweightedEdge(0 , 1, true);
+	g.addUnweightedEdge(2 , 1, true);
+
+	g.addUnweightedEdge(3 , 4, true);
+	g.addUnweightedEdge(4 , 5, true);
+	g.addUnweightedEdge(6 , 5, true);
+
+	g.addUnweightedEdge(7 , 8, true);
+	g.addUnweightedEdge(9 , 7, true);
+
+	ConnectedComponent cc(g);
+
+	assert(cc.sameComponent(0 , 1));
+	assert(cc.sameComponent(0 , 2));
+	printf("0,1,2 are a connected component\n");
+
+	assert(cc.sameComponent(3 , 4));
+	assert(cc.sameComponent(5 , 4));
+	assert(cc.sameComponent(5 , 6));
+	printf("3,4,5,6 are a connected component\n");
+
+	assert(cc.sameComponent(7 , 8));
+	assert(cc.sameComponent(7 , 9));
+	printf("7,8,9 are a connected component\n");
+
+	assert(cc.sameComponent(7 , 0) == false);
+	printf("0,7 are not connected\n");
+
+	assert(cc.sameComponent(7 , 3) == false);
+	printf("7,3 are not connected\n");
+
+	assert(cc.sameComponent(1 , 6) == false);
+	printf("1,6 are not connected\n");
+
+
+	printf("passed!\n================\n");
+
 }
 
 int main(){
 	testGraph();
 	testDFS();
 	testBFS();
+	testConnectedComponent();
+
+	printf("All Passed!!!\n");
 }

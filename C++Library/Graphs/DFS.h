@@ -11,14 +11,15 @@ class DFS{
 
 public:
 	DFS(Graph gr,int s):g(gr),source(s){
-		visited = new bool[g.getNumberOfVertices()];
-		edgeTo  = new int[g.getNumberOfVertices()];
-		memset(visited , 0 , sizeof(visited));
-		memset(edgeTo , -1 , sizeof(edgeTo));
+		int sz = g.getNumberOfVertices();
+		visited = new bool[sz];
+		edgeTo  = new int[sz];
+		memset(visited , 0 , sizeof(bool)*sz);
+		memset(edgeTo , -1 , sizeof(int)*sz);
 		dfs(source);
 	}
 
-	bool isConnectedTo(int x){return visited[x];}
+
 	vector<int> pathTo(int x){
 		if(edgeTo[x] == -1){return vector<int>();}
 		stack<int> s;
@@ -33,6 +34,9 @@ public:
 		}
 		return ret;
 	}
+
+	bool isConnectedTo(int x){return visited[x];}
+
 private:
 
 	void dfs(int x){

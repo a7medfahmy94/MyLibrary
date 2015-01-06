@@ -11,12 +11,12 @@ class BFS{
 public:
 
 BFS(Graph gr,int s):g(gr),source(s){
-	visited = new bool[g.getNumberOfVertices()];
-	distTo = new int[g.getNumberOfVertices()];
+	int sz = g.getNumberOfVertices();
+	visited = new bool[sz];
+	distTo = new int[sz];
 
-	memset(visited , 0 , sizeof(visited));
-	memset(distTo , -1 , sizeof(distTo));
-
+	memset(visited , 0 , sizeof(bool)*sz);
+	memset(distTo , -1 , sizeof(int)*sz);
 	bfs();
 }
 
