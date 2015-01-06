@@ -1,3 +1,6 @@
+#ifndef EDGE_H
+#define EDGE_H
+
 class Edge{
 public:
 	Edge(int a,int b,float f):v(a),w(b),weight(f){}
@@ -13,3 +16,5 @@ private:
 	int v,w;
 	float weight;
 };
+
+#endif

@@ -1,3 +1,7 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
+
 #include <vector>
 #include "Edge.h"
 #define sz(x) (int)(x.size())
@@ -9,6 +13,7 @@ class Graph{
 public:
 	Graph(int v){
 		adj.resize(v);
+		vertices = v;
 	}
 
 	void addUnweightedEdge(int a,int b,bool undirected=false){
@@ -42,9 +47,14 @@ public:
 		return false;
 	}
 
-	std::vector< vector<Edge> > getAdj(){return adj;}
+	vector< vector<Edge> > getAdj(){return adj;}
+	vector<Edge> getAdj(int x){return adj[x];}
+
+	int getNumberOfVertices(){return vertices;}
 
 private:
-	std::vector< vector<Edge> > adj;
+	vector< vector<Edge> > adj;
+	int vertices;
 };
 
+#endif
