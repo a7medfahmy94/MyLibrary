@@ -3,6 +3,7 @@
 #include <vector>
 #include "Graph.h"
 #include "DFS.h"
+#include "BFS.h"
 
 using namespace std;
 
@@ -74,7 +75,41 @@ void testDFS(){
 	printf("All passed!\n================\n");
 }
 
+void testBFS(){
+printf("Testing BFS\n");
+
+	Graph g(10);
+	g.addUnweightedEdge(0 , 1);
+	g.addUnweightedEdge(2 , 1);
+	g.addUnweightedEdge(2 , 3);
+	g.addUnweightedEdge(2 , 7);
+	g.addUnweightedEdge(3 , 4);
+	g.addUnweightedEdge(4 , 5);
+	g.addUnweightedEdge(6 , 5);
+	g.addUnweightedEdge(7 , 4);
+	g.addUnweightedEdge(7 , 8);
+	g.addUnweightedEdge(9 , 6);
+	g.addUnweightedEdge(9 , 7);
+
+	BFS bfs(g , 2);
+
+	assert(bfs.isConnectedTo(0) == false);
+	printf("2 is not connected to 0\n");
+
+	assert(bfs.isConnectedTo(8) == true);
+	printf("2 is connected to 8\n");
+
+	assert(bfs.distanceTo(8) == 2);
+	printf("distance from 2 to 8 is 2\n");
+
+	assert(bfs.distanceTo(5) == 3);
+	printf("distance from 2 to 5 is 3\n");
+
+	printf("All passed!\n================\n");
+}
+
 int main(){
 	testGraph();
 	testDFS();
+	testBFS();
 }
